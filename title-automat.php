@@ -43,7 +43,7 @@ class TitleAutomatS{
 
     $address = $address['address'];
 
-    if(isset($address)) $comment[] = $address;
+    if(strlen($address) > 3) $comment[] = $address;
 
     return $comment;
   }
@@ -73,7 +73,7 @@ class TitleAutomatS{
         break;
     }
 
-    if(isset($rooms)) $comment[] = $rooms;
+    if(!empty($rooms)) $comment[] = $rooms;
 
     return $comment;
   }
@@ -116,8 +116,8 @@ class TitleAutomatS{
 
     wp_update_post( array(
 		    'ID'           => $post_id,
-		    'post_title' => $title,
-        'post_name' => $title,
+		    'post_title' => $title . '- #' . $post_id,
+        'post_name' => $post_id . '-' . $title,
   	));
 
     add_action( 'save_post', array($this, 'chg_title'), 99);
