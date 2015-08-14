@@ -16,8 +16,26 @@ class TitleAutomatS{
     add_filter( 'comments_after_title', array($this, 'add_action_in_title'), $priority = 10, $accepted_args = 2 );
     add_filter( 'comments_after_title', array($this, 'add_rooms_in_title'), $priority = 10, $accepted_args = 2 );
     add_filter( 'comments_after_title', array($this, 'add_address_in_title'), $priority = 10, $accepted_args = 2 );
+    add_action('admin_head', array($this, 'style_admin'));
 
   }
+
+  function style_admin() {
+
+    $post = get_post();
+
+    if('property' != $post->post_type) return;
+
+    ?>
+      <style id="property_style">
+        #title {
+            display: none;
+        }
+      </style>
+
+    <?php
+  }
+
 
   //Добавляем адрес в заголовок
   function add_address_in_title($comment, $post_id){
@@ -98,7 +116,8 @@ class TitleAutomatS{
 
     wp_update_post( array(
 		    'ID'           => $post_id,
-		    'post_title' => $title
+		    'post_title' => $title,
+        'post_name' => $title,
   	));
 
     add_action( 'save_post', array($this, 'chg_title'), 99);
